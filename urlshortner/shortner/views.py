@@ -2,6 +2,7 @@ from django.shortcuts import render
 import uuid
 from .models import Url
 from django.http import HttpResponse
+from django.shortcuts import redirect
 
 # Create your views here.
 def index(request):
@@ -17,10 +18,8 @@ def create(request):
 
 def go(request, pk):
     url_details = Url.objects.get(uuid=pk)
-    return redirect('https://'+url(url_details.link))
-
-from django.shortcuts import redirect
+    return redirect(f'https://' + url_details.link)
 
 def redirect_view(request, shortened_url):
-    full_url = urlshortner.objects.get(shortened_url=shortened_url).full_url
+    full_url = Url.objects.get(shortened_url=shortened_url).full_url
     return redirect(full_url)
